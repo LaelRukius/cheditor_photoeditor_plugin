@@ -74,7 +74,8 @@ if($import != ''){// 1) CH에디터 to 네이버에디터
 		goto_url($nhn_editor_url);
 	}
 	else{
-		alert_close('일시적 장애가 발생했습니다. 잠시 후 다시 이용해주세요.');
+		//그누보드는 이미지 업로드시 파일명에 아이피를 기록합니다. 해당 아이피와 현재 아이피를 비교합니다.
+		alert_close('해당 이미지를 편집할 권한이 없습니다. 확인 후 다시 이용해주세요.');
 	}
 
 	exit;
@@ -94,7 +95,7 @@ if($file != ''){// 2) 네이버에디터 to CH에디터
 		$image_data = chplugin_get_remote_image($file);
 		if($image_data == FALSE || $image_data == ''){
 			//원격지 이미지를 불러올 수 없음.
-			alert_close('일시적 장애가 발생했습니다. 잠시 후 다시 이용해주세요.');
+			alert_close('편집한 이미지를 서버로 불러올 수 없었습니다. 서버 관리자에게 문의해주세요.');
 		}
 		else{
 
@@ -103,7 +104,7 @@ if($file != ''){// 2) 네이버에디터 to CH에디터
 			$tmp_arr = explode('/data/cheditor4/',$import);
 			$file_savepath = $tmp_arr[1];
 			if($file_savepath==''){
-				alert_close('일시적 장애가 발생했습니다. 잠시 후 다시 이용해주세요.');//불량데이터
+				alert_close('불량 데이터가 수신되어서 작업이 종료됩니다. 잠시 후 다시 이용해주세요.');//불량데이터
 			}
 		
 			$file_savepath = "{$g4['path']}/data/{$g4['cheditor4']}/".$file_savepath;
@@ -128,10 +129,10 @@ if($file != ''){// 2) 네이버에디터 to CH에디터
 			$tmp_savepath = SAVE_DIR . '/__tmp__' .rand(10000,20000). $filename;//우선 저장
 			$handle = fopen($tmp_savepath, 'a');
 			if($handle==''){//파일 핸들러가 안잡히면
-				alert('일시적 장애가 발생했습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
+				alert('편집된 이미지를 수신하였으나, 파일을 저장할 수 없었습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
 			}
 			if(fwrite($handle, $image_data) === FALSE){//쓰기가 안되면
-				alert('일시적 장애가 발생했습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
+				alert('편집된 이미지를 수신하였으나, 파일을 저장할 수 없었습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
 			}
 			fclose($handle);
 
@@ -139,7 +140,7 @@ if($file != ''){// 2) 네이버에디터 to CH에디터
 			@unlink($tmp_savepath);
 
 			if(!is_numeric($image_meta_data[0]) || !is_numeric($image_meta_data[1]) || $image_meta_data[0]=='0' || $image_meta_data[1]=='0' ){
-				alert_close('일시적 장애가 발생했습니다. 잠시 후 다시 이용해주세요.',$nhn_editor_url);
+				alert_close('전송된 데이터가 이미지 데이터가 아닙니다. 작업이 종료됩니다.',$nhn_editor_url);
 			}
 
 
@@ -147,10 +148,10 @@ if($file != ''){// 2) 네이버에디터 to CH에디터
 
 			$handle = fopen($file_savepath, 'w');
 			if($handle==''){//파일 핸들러가 안잡히면
-				alert('일시적 장애가 발생했습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
+				alert('편집된 이미지를 수신하였으나, 파일을 저장할 수 없었습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
 			}
 			if(fwrite($handle, $image_data) === FALSE){//쓰기가 안되면
-				alert('일시적 장애가 발생했습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
+				alert('편집된 이미지를 수신하였으나, 파일을 저장할 수 없었습니다. 네이버 에디터의 [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
 			}
 			fclose($handle);
 
