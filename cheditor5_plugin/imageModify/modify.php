@@ -35,8 +35,10 @@ function chplugin_is_valid_userfile($fileurl){
 	$filename = chplugin_get_filename_by_fileurl($fileurl);
 
 	// 파일의 아이피 부분만 잘라내서 자신의 아이피인지 비교한다.
-	list($ip2long, $filename) = explode('_', $filename);
-	if ($ip2long == md5($_SERVER['REMOTE_ADDR'])) {
+	preg_match('#([0-9a-f]+)_([0-9]+)_([a-z]+)\.(gif|png|jpe?g)$#i', $filename, $m);
+	$md5ip = $m[1];
+
+	if ($md5ip == md5($_SERVER['REMOTE_ADDR'])) {
 		return true;
 	}
 	else {
