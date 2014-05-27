@@ -17,6 +17,10 @@ if(function_exists('curl_init')==FALSE){
 	alert_close('php curl 모듈이 설치되어야 사용가능합니다.');
 }
 
+function remove_rand_var($fileurl){
+	$tmp_arr = explode('?rand',$fileurl);
+	return $tmp_arr[0];
+}
 
 function chplugin_get_filename_by_fileurl($fileurl){
 	$m = array();
@@ -63,7 +67,7 @@ function chplugin_get_remote_image($tUrl){
 	return $f;
 }
 
-$import = trim($_GET['import']);
+$import = remove_rand_var(trim($_GET['import']));
 $self_id = trim($_GET['self_id']);
 $file = trim($_GET['file']);
 
@@ -97,7 +101,7 @@ if($file != ''){// 2) 네이버에디터 to CH에디터
 		$image_data = chplugin_get_remote_image($file);
 		if($image_data == FALSE || $image_data == ''){
 			//원격지 이미지를 불러올 수 없음.
-			alert_close('편집한 이미지를 서버로 불러올 수 없었습니다. 서버 관리자에게 문의해주세요.');
+			alert('편집한 이미지를 서버로 불러올 수 없었습니다. [PC저장]을 이용해 주시기 바랍니다.',$nhn_editor_url);
 		}
 		else{
 
