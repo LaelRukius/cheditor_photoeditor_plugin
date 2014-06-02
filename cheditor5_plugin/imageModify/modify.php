@@ -168,6 +168,7 @@ if($file != ''){// 2) 네이버에디터 to CH에디터
 				try{
 					opener.imageCompletedList['{$self_id}']['width'] = '{$image_meta_data[0]}';
 					opener.imageCompletedList['{$self_id}']['height'] = '{$image_meta_data[1]}';
+					opener.imageCompletedList['{$self_id}']['fileUrl'] += '?rand='+Math.random();
 					opener.document.getElementById('{$self_id}').innerHTML = opener.document.getElementById('{$self_id}').innerHTML.replace('{$filename}','{$filename}?rand='+Math.random());
 					window.close();
 				}
